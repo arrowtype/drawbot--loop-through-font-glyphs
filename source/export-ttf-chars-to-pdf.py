@@ -8,6 +8,10 @@ from drawBot import *
 autoOpen = True
 
 fontPath = "source/RecursiveMonoCslSt-Med.ttf"
+outputDir = "source/pdf-exports"
+
+if not os.path.exists(outputDir):
+    os.makedirs(outputDir)
 
 W,H= 1000,1000
 fontSize = W/40
@@ -26,7 +30,7 @@ with TTFont(fontPath) as f:
 
 textBox(txt, (0, 0, W, H))
 
-saveTo="test.pdf"
+saveTo=f"{outputDir}/test.pdf"
 saveImage(saveTo)
 
 if autoOpen:
