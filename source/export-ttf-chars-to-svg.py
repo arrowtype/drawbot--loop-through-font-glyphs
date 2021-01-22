@@ -6,8 +6,6 @@ from fontTools.ttLib import TTFont
 from drawBot import *
 import os
 
-autoOpen = True
-
 fontPath = "source/RecursiveMonoCslSt-Med.ttf"
 outputDir = "source/svg-exports"
 
@@ -17,14 +15,25 @@ fontSize = W/2
 if not os.path.exists(outputDir):
     os.makedirs(outputDir)
 
+print(f"\n🤖 Saving SVGs to → {outputDir}.\n")
+print("🤖 Depending on the font, this may take a few minutes...\n")
+
+# open the font with TTFont
 with TTFont(fontPath) as f:
+    # loop through the character map
     for key, value in f["cmap"].getBestCmap().items():
+        # make a new drawbot page
         newPage(W,H)
+
+        # print characters to the terminal
         print(chr(key), end=" ")
 
+        # a try/except to handle characters without paths (like "space"), which will error if you try to draw them as a bezier path
         try:
+            # set up a bezier path
             path = BezierPath()
 
+            # set the current character into the bezier path
             path.text(chr(key), font=fontPath, fontSize=500)
 
             # set an indent
@@ -49,18 +58,11 @@ with TTFont(fontPath) as f:
             # draw the path
             drawPath(path)
 
+            # make a path like "source/svg-exports/Acircumflex.svg"
             saveTo=f"{outputDir}/{value}.svg"
             
+            # save to the path
             saveImage(saveTo)
 
         except TypeError:
             pass
-
-
-textBox(txt, (0, 0, W, H))
-
-
-if autoOpen:
-    import os
-    # os.system(f"open --background -a Preview {path}")
-    os.system(f"open -a Preview {saveTo}")
