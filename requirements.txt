@@ -1,0 +1,4 @@
+fontTools
+
+# to run drawbot proofs
+git+https://github.com/typemytype/drawbot
