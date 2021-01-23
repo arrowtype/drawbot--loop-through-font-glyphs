@@ -1,5 +1,10 @@
 """
-    Run from base of repo.
+    Make SVGs from all characters in a font binary (excludes stylistic sets, etc).
+
+    Note: this currently sizes each character to fill the canvas. To keep them a 
+    similar scale, see size handling of other scripts in this repo.
+
+    See README.md for usage details.
 """
 
 from fontTools.ttLib import TTFont
@@ -7,7 +12,7 @@ from drawBot import *
 import os
 
 fontPath = "source/RecursiveMonoCslSt-Med.ttf"
-outputDir = "source/svg-exports"
+outputDir = "source/exports/svg"
 
 W,H= 1000,1000
 fontSize = W/2

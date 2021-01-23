@@ -4,11 +4,12 @@
 
 from fontTools.ttLib import TTFont
 from drawBot import *
+import os
 
 autoOpen = True
 
 fontPath = "source/RecursiveMonoCslSt-Med.ttf"
-outputDir = "source/pdf-exports"
+outputDir = "source/exports/pdf"
 
 if not os.path.exists(outputDir):
     os.makedirs(outputDir)
