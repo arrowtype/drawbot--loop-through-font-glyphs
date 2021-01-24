@@ -60,14 +60,17 @@ for char in string.split():
 with TTFont(fontPath) as f:
     glyphSet = f.getGlyphSet()
 
-    for glyphName in glyphSet.keys():
+    for i, glyphName in enumerate(glyphSet.keys()):
         newPage(W,H)
         fill(0)
         rect(0,0,W,H)
 
         fill(1)
 
-        
+        fontSize(24)
+        font(fontPath)
+
+        text(str(i).rjust(4,"0"), (25, 25))
 
         # set an indent for padding
         indent = 50
@@ -93,6 +96,10 @@ with TTFont(fontPath) as f:
         path = BezierPath(glyphSet=glyphSet)
         glyphSet[glyphName].draw(path)
         drawPath(path)
+
+        ## to end early, e.g. to test layout adjustment:
+        # if i > 10:
+        #     break
 
 
 saveTo=f"{outputDir}/{filename}.mp4"
