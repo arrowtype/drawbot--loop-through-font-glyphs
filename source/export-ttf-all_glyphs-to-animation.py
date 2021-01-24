@@ -58,80 +58,42 @@ for char in string.split():
 
 
 with TTFont(fontPath) as f:
-    glyfTable = f["glyf"]
     glyphSet = f.getGlyphSet()
 
     for glyphName in glyphSet.keys():
-        if not glyfTable[glyphName].isComposite():
-            continue
+        newPage(W,H)
+        fill(0)
+        rect(0,0,W,H)
 
-        # record TTGlyph outlines without components
-        dcPen = DecomposingRecordingPen(glyphSet)
-        glyphSet[glyphName].draw(dcPen)
+        fill(1)
 
-        # replay recording onto a skia-pathops Path
-        path = pathops.Path()
-        pathPen = path.getPen()
-        dcPen.replay(pathPen)
+        
 
-        # remove overlaps
-        path.simplify()
+        # set an indent for padding
+        indent = 50
 
-        # create new TTGlyph from Path
-        ttPen = TTGlyphPen(None)
-        path.draw(ttPen)
-        glyfTable[glyphName] = ttPen.glyph()
+        w = xMax - xMin
+        h = yMax - yMin
 
-    for glyphName in glyphSet.keys():
+        # calculate the box where we want to draw the path in
+        boxWidth = width() - indent * 2
+        boxHeight = height() - indent * 2
+        # calculate a scale based on the given path bounds and the box
+        s = min([boxWidth / float(w), boxHeight / float(h)])
+        # translate to the middle
+        translate(width()*.5, height()*.5)
+        # set the scale
+        scale(s)
+        # translate the negative offset, letter could have overshoot
+        translate(-xMin, -yMin)
+        # translate with height of the path ... but this could use some improvement, still
+        translate(-w*0.5, -h*0.5)
 
-        # get outlines to check if there are any (skip printing whitespace glyphs)
-        pen = RecordingPen()
-        glyphSet[glyphName].draw(pen)
+        # then, actually draw onto the canvas
+        path = BezierPath(glyphSet=glyphSet)
+        glyphSet[glyphName].draw(path)
+        drawPath(path)
 
-        if len(pen.value) > 0:
-
-            try:
-                newPage(W,H)
-                fill(0)
-                rect(0,0,W,H)
-                
-                fill(1)
-                # Fetch the path of the glyph as a NSBezierPath
-                pen = CocoaPen(None)
-                glyphSet[glyphName].draw(pen)
-                glyphPath = pen.path
-                # ...and then convert it to a DrawBot BezierPath
-                
-                glyphPath = BezierPath(glyphPath)
-
-                # set an indent for padding
-                indent = 50
-
-                # print(xMin, yMin, xMax, yMax)
-
-                w = xMax - xMin
-                h = yMax - yMin
-
-                # calculate the box where we want to draw the path in
-                boxWidth = width() - indent * 2
-                boxHeight = height() - indent * 2
-                # calculate a scale based on the given path bounds and the box
-                s = min([boxWidth / float(w), boxHeight / float(h)])
-                # translate to the middle
-                translate(width()*.5, height()*.5)
-                # set the scale
-                scale(s)
-                # translate the negative offset, letter could have overshoot
-                translate(-xMin, -yMin)
-                # translate with height of the path ... but this could use some improvement, still
-                translate(-w*0.5, -h*0.5)
-
-                # then, actually draw onto the canvas
-                # fill(1)
-                drawPath(glyphPath)
-
-            except TypeError:
-                pass
 
 saveTo=f"{outputDir}/{filename}.mp4"
 saveImage(saveTo)
