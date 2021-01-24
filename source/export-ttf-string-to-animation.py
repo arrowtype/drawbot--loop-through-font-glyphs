@@ -45,14 +45,7 @@ for char in string.split():
 for i in range(1,3):
     with TTFont(fontPath) as f:
         # loop through the character map
-        # for key, value in f["cmap"].getBestCmap().items():
         for char in string.split():
-            # make a new drawbot page
-            
-
-            # print characters to the terminal
-            # print(chr(key), end=" ")
-
             # a try/except to handle characters without paths (like "space"), which will error if you try to draw them as a bezier path
             try:
                 newPage(W,H)
@@ -71,14 +64,6 @@ for i in range(1,3):
 
                 # set an indent for padding
                 indent = 50
-
-                # calculate the width and height of the path
-                # minx, miny, maxx, maxy = path.bounds()
-                # xMin, yMin, xMax, yMax = path.bounds() 
-                # xMin, yMin, xMax, yMax = f["head"].xMin, f["head"].yMin, f["head"].xMax, f["head"].yMax
-                # xMin, yMin, xMax, yMax = 00, -400, 1000, 2250
-
-                # print(xMin, yMin, xMax, yMax)
 
                 w = xMax - xMin
                 h = yMax - yMin
@@ -99,13 +84,6 @@ for i in range(1,3):
                 translate(-indent, -h*.5)
                 # draw the path
                 drawPath(path)
-
-                # # make a path like "source/svg-exports/Acircumflex.svg"
-                # # saveTo=f"{outputDir}/{value}.svg"
-                # saveTo=f"{outputDir}/{char}.svg"
-                
-                # # save to the path
-                # saveImage(saveTo)
 
             except TypeError:
                 pass
