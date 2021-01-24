@@ -15,17 +15,9 @@ from drawBot import *
 import os
 import sys
 
-try:
-    import pathops
-except ImportError:
-    sys.exit(
-        "This script requires the skia-pathops module. "
-        "`pip install skia-pathops` and then retry."
-    )
-
 autoOpen = True
 
-fontPath = "source/RecursiveMonoCslSt-Med.ttf"
+fontPath = "source/fonts/RecursiveMonoCslSt-Med.ttf"
 
 outputDir = "source/exports/mp4"
 filename = "all-glyphs-recursive"

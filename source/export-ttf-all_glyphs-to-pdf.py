@@ -8,7 +8,7 @@ import os
 
 autoOpen = True
 
-fontPath = "source/RecursiveMonoCslSt-Med.ttf"
+fontPath = "source/fonts/RecursiveMonoCslSt-Med.ttf"
 outputDir = "source/exports/pdf"
 filename = "all_glyphs_listed-recursive"
 
